@@ -1,0 +1,45 @@
+name: Build assets & Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Get Minecraft version from gradle.properties
+        id: get_minecraft_version
+        run: |
+          MC_VERSION=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
+          echo "MC_VERSION=$MC_VERSION" >> $GITHUB_ENV
+
+      - name: Create Release
+        run: |
+          gh release create ${{ github.ref_name }} build/libs/*.jar \
+            --title "${{ github.ref_name }}" \
+            --notes "
+            
+            ## Release for MC v${{ env.MC_VERSION }}
+
+            _Contributions by @pokahs_
+    
+            **Initial release!**
+
+            " \
+            --draft
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
