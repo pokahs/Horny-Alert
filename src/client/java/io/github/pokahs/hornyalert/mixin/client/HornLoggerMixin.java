@@ -1,4 +1,4 @@
-package io.github.pokahs.hornyalert.mixin;
+package io.github.pokahs.hornyalert.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundSystem;

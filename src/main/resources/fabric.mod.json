@@ -3,7 +3,7 @@
 	"id": "horny-alert",
 	"version": "${version}",
 	"name": "Horny Alert",
-	"description": "Notifies you of where nearby goat horns are blown",
+	"description": "Alerts you of where nearby goat horns are blown",
 	"authors": [
 		"pokahs"
 	],
@@ -14,18 +14,15 @@
 	"license": "MIT",
 	"icon": "assets/horny-alert/icon.png",
 	"environment": "client",
-	"entrypoints": {
-		"main": [
-			"io.github.pokahs.hornyalert.HornyAlert"
-		]
-	},
 	"mixins": [
-		"horny-alert.mixins.json"
+		{
+			"config": "horny-alert.client.mixins.json",
+			"environment": "client"
+		}
 	],
 	"depends": {
 		"fabricloader": ">=0.16.9",
 		"minecraft": "~1.20.4",
-		"java": ">=17",
-		"fabric-api": "*"
+		"java": ">=17"
 	}
 }
